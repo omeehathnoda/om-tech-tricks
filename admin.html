@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:," />
+  <title>Site admin — Om's Tech Tricks</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap');
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f8fa; --paper: #ffffff; --ink: #18201c; --muted: #66706a;
+      --line: #dfe4e1; --accent: #087a55; --accent-soft: #dcefe7;
+      --button-ink: #ffffff; --danger: #a84035;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111317; --paper: #171a1e; --ink: #edf2ef; --muted: #aab4ae;
+        --line: #30363a; --accent: #66d2a8; --accent-soft: #183a2e;
+        --button-ink: #102018; --danger: #ff9185;
+      }
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink);
+      font-family: "Public Sans", sans-serif; line-height: 1.6; }
+    .wrap { width: min(760px, calc(100% - 32px)); margin: 0 auto; padding: 40px 0 90px; }
+    h1 { font-size: 1.9rem; letter-spacing: -.03em; margin: 0 0 6px; }
+    .sub { color: var(--muted); font-size: .92rem; margin: 0 0 28px; }
+    .card { background: var(--paper); border: 1px solid var(--line);
+      border-radius: 8px; padding: 22px; margin-bottom: 22px; }
+    .card h2 { margin: 0 0 4px; font-size: 1.25rem; letter-spacing: -.02em; }
+    .card > p.hint { color: var(--muted); font-size: .85rem; margin: 0 0 16px; }
+    label { display: block; font-size: .78rem; font-weight: 600; margin: 12px 0 0; }
+    input[type=text], textarea {
+      width: 100%; margin-top: 5px; padding: 10px; color: var(--ink);
+      background: var(--bg); border: 1px solid var(--line); border-radius: 4px;
+      font: inherit; font-size: .9rem;
+    }
+    textarea { min-height: 76px; resize: vertical; }
+    input:focus, textarea:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .item { border-top: 1px solid var(--line); padding: 16px 0 6px; }
+    .item:first-of-type { border-top: 0; padding-top: 4px; }
+    .item-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+    .item-head strong { font-size: .95rem; }
+    .btn { border: 1px solid var(--line); border-radius: 5px; background: var(--paper);
+      padding: 9px 14px; cursor: pointer; font-weight: 600; font-size: .85rem; color: inherit; }
+    .btn:hover { border-color: var(--accent); color: var(--accent); }
+    .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--button-ink); }
+    .btn.danger { color: var(--danger); border-color: var(--line); }
+    .btn.danger:hover { border-color: var(--danger); }
+    .btn.small { padding: 6px 10px; font-size: .78rem; }
+    .toolbar { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+    .status { min-height: 22px; margin-top: 12px; color: var(--accent);
+      font: 500 .78rem "IBM Plex Mono", monospace; }
+    .status.err { color: var(--danger); }
+    .login input[type=text] { font-family: "IBM Plex Mono", monospace; }
+    .hidden { display: none; }
+    .back { display: inline-block; margin-bottom: 18px; color: var(--muted);
+      font-size: .85rem; text-decoration: none; }
+    .back:hover { color: var(--accent); }
+    @media (max-width: 560px) { .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">← Back to site</a>
+    <h1>Site admin</h1>
+    <p class="sub">Add, edit or remove notes. Changes go live on your site in about a minute.</p>
+
+    <div class="card login" id="loginCard">
+      <h2>Log in</h2>
+      <p class="hint">Paste your GitHub access code. It stays in this browser only — never on the site.</p>
+      <label>Access code
+        <input type="text" id="tokenInput" placeholder="github_pat_…" autocomplete="off" />
+      </label>
+      <div class="toolbar">
+        <button class="btn primary" id="unlockBtn">Unlock</button>
+        <button class="btn hidden" id="lockBtn">Log out</button>
+      </div>
+      <p class="hint" style="margin-top:14px">No code yet? On github.com go to Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token. Give it access to only the <strong>om-tech-tricks</strong> repository with <strong>Contents: read and write</strong>.</p>
+      <div class="status" id="loginStatus"></div>
+    </div>
+
+    <div id="editors" class="hidden">
+      <div class="card" id="card-tricks">
+        <h2>Quick tricks</h2><p class="hint">Short useful tricks. Newest first looks best — new items go on top.</p>
+        <div class="items"></div>
+        <div class="toolbar"><button class="btn small" data-add="tricks">+ Add trick</button></div>
+      </div>
+      <div class="card" id="card-hacks">
+        <h2>Simple fixes</h2><p class="hint">Small problem → small fix notes.</p>
+        <div class="items"></div>
+        <div class="toolbar"><button class="btn small" data-add="hacks">+ Add fix</button></div>
+      </div>
+      <div class="card" id="card-daily">
+        <h2>Today's note</h2><p class="hint">The one trick shown in the Daily section.</p>
+        <div class="items"></div>
+      </div>
+      <div class="card" id="card-reels">
+        <h2>Reel notes</h2><p class="hint">Checked reels, newest first. Use ✅ ❌ ⚠️ 🏴‍☠️ at the start of the title.</p>
+        <div class="items"></div>
+        <div class="toolbar"><button class="btn small" data-add="reels">+ Add reel note</button></div>
+      </div>
+      <div class="card">
+        <h2>Publish</h2>
+        <p class="hint">Sends everything above to your live site.</p>
+        <div class="toolbar"><button class="btn primary" id="publishBtn">Publish to site</button></div>
+        <div class="status" id="pubStatus"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var OWNER = "omeehathnoda", REPO = "om-tech-tricks", FILE = "content.json";
+      var API = "https://api.github.com/repos/" + OWNER + "/" + REPO + "/contents/" + FILE;
+      var data = null, token = localStorage.getItem("ott_token") || "";
+
+      function $(id) { return document.getElementById(id); }
+      function esc(s) {
+        return String(s == null ? "" : s).replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+      function field(label, name, value, textarea) {
+        var v = esc(value || "");
+        var input = textarea
+          ? '<textarea name="' + name + '">' + v + "</textarea>"
+          : '<input type="text" name="' + name + '" value="' + v + '" />';
+        return "<label>" + esc(label) + input + "</label>";
+      }
+      function linksToText(links) {
+        return (links || []).map(function (l) { return l.label + " | " + l.href; }).join("\n");
+      }
+      function textToLinks(text) {
+        return String(text || "").split("\n").map(function (line) {
+          var parts = line.split("|");
+          if (parts.length < 2 || !parts[1].trim()) return null;
+          return { label: parts[0].trim(), href: parts[1].trim() };
+        }).filter(Boolean);
+      }
+      function lines(t) {
+        return String(t || "").split("\n").map(function (s) { return s.trim(); }).filter(Boolean);
+      }
+
+      // ---- item forms ----
+      function trickForm(t) {
+        return field("Tag (e.g. TRAVEL DATA)", "tag", t.tag) +
+          field("Title", "title", t.title) +
+          field("Description — write **word** for bold", "description", t.description, true) +
+          field("Steps — one per line (optional)", "steps", (t.steps || []).join("\n"), true) +
+          '<div class="row">' +
+          field("Note label (e.g. Honest note)", "noteLabel", t.note && t.note.label) +
+          field("Note text (optional)", "noteText", t.note && t.note.text, true) +
+          "</div>" +
+          field("Copy button text (optional — shows a Copy button)", "copy", t.copy) +
+          field("Links — one per line as: Label | https://…", "links", linksToText(t.links), true);
+      }
+      function hackForm(h) {
+        return field("Tag (e.g. WI-FI)", "tag", h.tag) +
+          field("Title", "title", h.title) +
+          field("Description", "description", h.description, true);
+      }
+      function reelForm(r) {
+        return field("Date (e.g. SEP 30)", "date", r.date) +
+          field("Title — start with ✅ ❌ ⚠️ or 🏴‍☠️", "title", r.title) +
+          field("Description — write **word** for bold", "description", r.description, true) +
+          field("Steps — one per line (optional)", "steps", (r.steps || []).join("\n"), true) +
+          '<div class="row">' +
+          field("Note label (e.g. Warning)", "noteLabel", r.note && r.note.label) +
+          field("Note text (optional)", "noteText", r.note && r.note.text, true) +
+          "</div>" +
+          field("Links — one per line as: Label | https://…", "links", linksToText(r.links), true);
+      }
+      function dailyForm(d) {
+        return field("Top line (e.g. SEP 30 · TRAVEL DATA)", "meta", d.meta) +
+          field("Title", "title", d.title) +
+          field("Description — write **word** for bold", "description", d.description, true) +
+          '<div class="row">' +
+          field("Note label", "noteLabel", d.note && d.note.label) +
+          field("Note text (optional)", "noteText", d.note && d.note.text, true) +
+          "</div>" +
+          field("Copy-note text (the full note people copy)", "copyText", d.copyText, true);
+      }
+
+      function readTrick(el) {
+        var g = function (n) { return el.querySelector('[name="' + n + '"]').value.trim(); };
+        var item = { tag: g("tag"), title: g("title"), description: g("description") };
+        var steps = lines(g("steps")); if (steps.length) item.steps = steps;
+        if (g("noteText")) item.note = { label: g("noteLabel") || "Note", text: g("noteText") };
+        if (g("copy")) item.copy = g("copy");
+        var links = textToLinks(g("links")); if (links.length) item.links = links;
+        return item;
+      }
+      function readHack(el) {
+        var g = function (n) { return el.querySelector('[name="' + n + '"]').value.trim(); };
+        return { tag: g("tag"), title: g("title"), description: g("description") };
+      }
+      function readReel(el) {
+        var g = function (n) { return el.querySelector('[name="' + n + '"]').value.trim(); };
+        var item = { date: g("date"), title: g("title"), description: g("description") };
+        var steps = lines(g("steps")); if (steps.length) item.steps = steps;
+        if (g("noteText")) item.note = { label: g("noteLabel") || "Note", text: g("noteText") };
+        var links = textToLinks(g("links")); if (links.length) item.links = links;
+        return item;
+      }
+      function readDaily(el) {
+        var g = function (n) { return el.querySelector('[name="' + n + '"]').value.trim(); };
+        var d = { meta: g("meta"), title: g("title"), description: g("description") };
+        if (g("noteText")) d.note = { label: g("noteLabel") || "Note", text: g("noteText") };
+        if (g("copyText")) d.copyText = g("copyText");
+        return d;
+      }
+
+      var sections = {
+        tricks: { form: trickForm, read: readTrick, blank: { tag: "", title: "", description: "" } },
+        hacks: { form: hackForm, read: readHack, blank: { tag: "", title: "", description: "" } },
+        reels: { form: reelForm, read: readReel, blank: { date: "", title: "", description: "" } }
+      };
+
+      function renderEditors() {
+        Object.keys(sections).forEach(function (key) {
+          var box = document.querySelector("#card-" + key + " .items");
+          box.innerHTML = "";
+          (data[key] || []).forEach(function (item, i) {
+            box.appendChild(itemEl(key, item, i));
+          });
+        });
+        var dbox = document.querySelector("#card-daily .items");
+        dbox.innerHTML = "";
+        dbox.appendChild(itemEl("daily", data.daily || {}, 0, true));
+      }
+
+      function itemEl(key, item, idx, single) {
+        var div = document.createElement("div");
+        div.className = "item"; div.dataset.idx = idx;
+        var title = esc(item.title || "(new item)");
+        div.innerHTML = '<div class="item-head"><strong>' + title + "</strong>" +
+          (single ? "" : '<button class="btn danger small" data-del>Delete</button>') + "</div>" +
+          (key === "daily" ? dailyForm(item) : sections[key].form(item));
+        var del = div.querySelector("[data-del]");
+        if (del) del.addEventListener("click", function () {
+          if (confirm("Delete this item?")) {
+            data[key].splice(Number(div.dataset.idx), 1);
+            renderEditors();
+          }
+        });
+        return div;
+      }
+
+      function collect() {
+        var out = { reelSource: data.reelSource, reelCount: data.reelCount };
+        ["tricks", "hacks", "reels"].forEach(function (key) {
+          var els = document.querySelectorAll("#card-" + key + " .item");
+          out[key] = Array.prototype.map.call(els, function (el) { return sections[key].read(el); })
+            .filter(function (it) { return it.title; });
+        });
+        out.daily = readDaily(document.querySelector("#card-daily .item"));
+        return out;
+      }
+
+      // ---- auth + load ----
+      function setStatus(el, msg, isErr) {
+        el.textContent = msg;
+        el.classList.toggle("err", !!isErr);
+      }
+
+      function load() {
+        setStatus($("loginStatus"), "Loading…");
+        return fetch("content.json?t=" + Date.now(), { cache: "no-store" })
+          .then(function (r) { if (!r.ok) throw new Error("load failed"); return r.json(); })
+          .then(function (json) {
+            data = json;
+            renderEditors();
+            $("editors").classList.remove("hidden");
+            $("lockBtn").classList.remove("hidden");
+            setStatus($("loginStatus"), "Unlocked. Your changes are not live until you press Publish.");
+          })
+          .catch(function () { setStatus($("loginStatus"), "Could not load site data.", true); });
+      }
+
+      $("unlockBtn").addEventListener("click", function () {
+        var v = $("tokenInput").value.trim();
+        if (!v) { setStatus($("loginStatus"), "Paste your access code first.", true); return; }
+        token = v;
+        localStorage.setItem("ott_token", token);
+        load();
+      });
+      $("lockBtn").addEventListener("click", function () {
+        token = ""; localStorage.removeItem("ott_token");
+        $("tokenInput").value = "";
+        $("editors").classList.add("hidden");
+        $("lockBtn").classList.add("hidden");
+        setStatus($("loginStatus"), "Logged out on this browser.");
+      });
+
+      document.querySelectorAll("[data-add]").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var key = btn.getAttribute("data-add");
+          data[key] = data[key] || [];
+          data[key].unshift(JSON.parse(JSON.stringify(sections[key].blank)));
+          renderEditors();
+          document.querySelector("#card-" + key + " .item").scrollIntoView({ behavior: "smooth" });
+        });
+      });
+
+      // ---- publish ----
+      function b64encodeUnicode(str) {
+        return btoa(unescape(encodeURIComponent(str)));
+      }
+      $("publishBtn").addEventListener("click", function () {
+        if (!token) { setStatus($("pubStatus"), "Log in first.", true); return; }
+        var payload = collect();
+        setStatus($("pubStatus"), "Publishing…");
+        fetch(API, { headers: { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json" } })
+          .then(function (r) { if (!r.ok) throw new Error("GitHub said no (HTTP " + r.status + ") — check the access code and its permissions."); return r.json(); })
+          .then(function (info) {
+            return fetch(API, {
+              method: "PUT",
+              headers: { "Authorization": "Bearer " + token, "Accept": "application/vnd.github+json", "Content-Type": "application/json" },
+              body: JSON.stringify({
+                message: "Update site content",
+                content: b64encodeUnicode(JSON.stringify(payload, null, 2) + "\n"),
+                sha: info.sha, branch: "main"
+              })
+            });
+          })
+          .then(function (r) { if (!r.ok) throw new Error("Publish failed (HTTP " + r.status + ")."); return r.json(); })
+          .then(function () { setStatus($("pubStatus"), "Published! The site updates in about a minute."); })
+          .catch(function (e) { setStatus($("pubStatus"), e.message, true); });
+      });
+
+      if (token) { $("tokenInput").value = token; load(); }
+    })();
+  </script>
+</body>
+</html>
