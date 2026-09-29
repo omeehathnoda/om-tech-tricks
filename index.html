@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#111317" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="data:," />
+  <title>Om's Tech Tricks</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap');
+
+    :root {
+      color-scheme: light dark;
+      --bg: #f7f8fa;
+      --paper: #ffffff;
+      --paper-soft: #f0f4f1;
+      --ink: #18201c;
+      --muted: #66706a;
+      --line: #dfe4e1;
+      --accent: #087a55;
+      --accent-soft: #dcefe7;
+      --button-ink: #ffffff;
+      --danger: #a84035;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #111317;
+        --paper: #171a1e;
+        --paper-soft: #1c2521;
+        --ink: #edf2ef;
+        --muted: #aab4ae;
+        --line: #30363a;
+        --accent: #66d2a8;
+        --accent-soft: #183a2e;
+        --button-ink: #102018;
+        --danger: #ff9185;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Public Sans", sans-serif;
+      line-height: 1.6;
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; }
+    h1, h2, h3, p { margin-top: 0; }
+
+    .shell {
+      width: min(980px, calc(100% - 40px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 190px minmax(0, 1fr);
+      gap: clamp(48px, 8vw, 96px);
+      padding: 54px 0 80px;
+    }
+    .side {
+      position: sticky;
+      top: 28px;
+      align-self: start;
+    }
+    .owner {
+      margin: 0 0 28px;
+      font-weight: 700;
+      letter-spacing: -.02em;
+    }
+    .owner span { color: var(--accent); }
+    nav { display: grid; gap: 3px; }
+    nav a {
+      display: block;
+      padding: 9px 10px;
+      border-radius: 5px;
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    nav a:hover,
+    nav a:focus-visible {
+      color: var(--ink);
+      background: var(--paper);
+      outline: none;
+    }
+    .side-note {
+      margin: 32px 10px 0;
+      color: var(--muted);
+      font: 400 .72rem/1.55 "IBM Plex Mono", monospace;
+    }
+
+    main { min-width: 0; }
+    .intro {
+      padding: 2px 0 42px;
+      border-bottom: 1px solid var(--line);
+    }
+    .eyebrow,
+    .section-label,
+    .meta {
+      color: var(--muted);
+      font: 500 .72rem/1.4 "IBM Plex Mono", monospace;
+      letter-spacing: .02em;
+    }
+    h1 {
+      max-width: 600px;
+      margin: 12px 0 15px;
+      font-size: clamp(2.35rem, 7vw, 4.6rem);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+    }
+    .intro p {
+      max-width: 560px;
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    section {
+      padding: 54px 0;
+      border-bottom: 1px solid var(--line);
+      scroll-margin-top: 24px;
+    }
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+    h2 {
+      margin: 6px 0 0;
+      font-size: clamp(1.75rem, 4vw, 2.35rem);
+      line-height: 1.12;
+      letter-spacing: -.04em;
+    }
+    .count { color: var(--muted); font-size: .82rem; }
+
+    .note-list { border-top: 1px solid var(--line); }
+    .note {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: start;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .note:last-child { border-bottom: 0; }
+    .meta { padding-top: 4px; color: var(--accent); }
+    h3 {
+      margin-bottom: 7px;
+      font-size: 1.03rem;
+      line-height: 1.35;
+      letter-spacing: -.015em;
+    }
+    .note p,
+    .daily-note p,
+    .deal-copy p,
+    .field-help {
+      margin-bottom: 0;
+      color: var(--muted);
+      font-size: .92rem;
+    }
+    .copy-btn,
+    .reel-link,
+    .site-link {
+      min-width: 42px;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 4px 0 4px 10px;
+      cursor: pointer;
+      font-size: .78rem;
+      font-weight: 600;
+    }
+    .reel-link,
+    .site-link { text-decoration: none; white-space: nowrap; }
+    .copy-btn:hover,
+    .copy-btn:focus-visible,
+    .reel-link:hover,
+    .reel-link:focus-visible,
+    .site-link:hover,
+    .site-link:focus-visible { color: var(--accent); outline: none; }
+    .note-copy { min-width: 0; }
+    .note-copy strong { color: var(--ink); }
+    .steps {
+      margin: 13px 0 0;
+      padding-left: 1.25rem;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+    .steps li { margin: 5px 0; padding-left: 3px; }
+    .note-warning { margin-top: 12px; }
+    .note-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+      padding-top: 1px;
+    }
+
+    .daily-note {
+      padding: 26px;
+      background: var(--paper-soft);
+      border-radius: 8px;
+    }
+    .daily-note .meta { display: block; margin-bottom: 14px; }
+    .daily-note h3 {
+      max-width: 570px;
+      margin-bottom: 10px;
+      font-size: clamp(1.3rem, 4vw, 1.75rem);
+    }
+    .daily-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .plain-button {
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      background: var(--paper);
+      padding: 9px 13px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .83rem;
+    }
+    .plain-button:hover,
+    .plain-button:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+    .status {
+      min-height: 20px;
+      color: var(--accent);
+      font: 500 .72rem "IBM Plex Mono", monospace;
+    }
+
+    .deal-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(280px, 1.1fr);
+      gap: clamp(32px, 7vw, 64px);
+      align-items: start;
+    }
+    .deal-rules {
+      margin: 22px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .deal-rules li {
+      padding: 11px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .86rem;
+    }
+    .deal-rules strong { color: var(--ink); }
+    .calculator {
+      padding: 24px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    .calculator h3 { font-size: 1.12rem; }
+    .fields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 20px 0 14px;
+    }
+    label { display: block; font-size: .75rem; font-weight: 600; }
+    input {
+      width: 100%;
+      margin-top: 6px;
+      padding: 10px;
+      color: var(--ink);
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+    }
+    input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+    .calculate {
+      width: 100%;
+      border: 0;
+      border-radius: 5px;
+      background: var(--accent);
+      color: var(--button-ink);
+      padding: 11px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .result {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: baseline;
+      min-height: 62px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--line);
+    }
+    .result strong { font-size: 1.6rem; letter-spacing: -.04em; }
+    .result span { color: var(--muted); font-size: .78rem; text-align: right; }
+
+    footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding-top: 30px;
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 30px, 650px);
+        display: block;
+        padding: 26px 0 52px;
+      }
+      .side {
+        position: static;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--line);
+      }
+      .owner { margin-bottom: 12px; }
+      nav { display: flex; flex-wrap: wrap; gap: 4px; }
+      nav a { padding: 7px 9px; background: var(--paper); }
+      .side-note { display: none; }
+      .intro { padding: 42px 0; }
+      section { padding: 42px 0; }
+      .note { grid-template-columns: 86px minmax(0, 1fr); gap: 14px; }
+      .copy-btn, .reel-link, .site-link { padding-left: 0; }
+      .copy-btn, .reel-link { grid-column: 2; justify-self: start; }
+      .note-actions { grid-column: 2; align-items: flex-start; justify-self: start; }
+      .deal-layout { grid-template-columns: 1fr; }
+      footer { flex-direction: column; }
+    }
+    @media (max-width: 430px) {
+      h1 { font-size: 2.7rem; }
+      .section-head { align-items: flex-end; }
+      .note { grid-template-columns: 1fr; gap: 7px; }
+      .meta { padding-top: 0; }
+      .copy-btn, .reel-link, .note-actions { grid-column: 1; }
+      .daily-note, .calculator { padding: 20px; }
+      .fields { grid-template-columns: 1fr; }
+      .result { align-items: flex-start; flex-direction: column; gap: 3px; }
+      .result span { text-align: left; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside class="side">
+      <p class="owner">Notes by <span>Om</span></p>
+      <nav aria-label="Notebook sections">
+        <a href="#tricks">Tricks</a>
+        <a href="#hacks">Hacks</a>
+        <a href="#daily">Daily tech trick</a>
+        <a href="#reels">Reel notes</a>
+        <a href="#deals">Deals</a>
+      </nav>
+      <p class="side-note">A small notebook of useful things worth remembering.</p>
+    </aside>
+
+    <main>
+      <header class="intro">
+        <span class="eyebrow">TECH NOTEBOOK</span>
+        <h1>Useful tech, kept simple.</h1>
+        <p>Shortcuts, fixes and deal checks gathered in one quiet place.</p>
+      </header>
+
+      <section id="tricks">
+        <div class="section-head">
+          <div><span class="section-label">01 / TRICKS</span><h2>Quick tricks</h2></div>
+          <span class="count">4 notes</span>
+        </div>
+        <div class="note-list">
+          <article class="note">
+            <span class="meta">TRAVEL DATA</span>
+            <div class="note-copy"><h3>✅ iTechieSIM travel eSIM</h3><p>Based in Multan, Pakistan, iTechieSIM sells prepaid travel data eSIMs for 195+ countries. The site shows a 7-day plan for Rs 2,215.</p><ol class="steps"><li>Open itechiesim.com, then pick your country and data plan.</li><li>Pay. You get a QR code by email and WhatsApp in about 30 seconds.</li><li>On iPhone, go to <strong>Settings → Mobile Data → Add eSIM</strong> and scan the QR code. Turn on Data Roaming.</li><li>Keep your normal SIM on for WhatsApp and bank OTPs. The eSIM gives you internet.</li></ol><p class="note-warning"><strong>Honest note:</strong> This does not give a non-PTA phone a local Pakistani SIM. It only gives travel data through an eSIM.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DdyfRohKuYQ/" target="_blank" rel="noopener noreferrer">Watch reel 1 ↗</a><a class="reel-link" href="https://www.instagram.com/reel/Ddye_hpqFOL/" target="_blank" rel="noopener noreferrer">Watch reel 2 ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">WINDOWS</span>
+            <div><h3>Open your clipboard history</h3><p>Press <strong>Windows + V</strong> to retrieve text and images you copied earlier. Turn it on the first time the panel opens.</p></div>
+            <button class="copy-btn" data-copy="Windows + V" aria-label="Copy Windows plus V shortcut">Copy</button>
+          </article>
+          <article class="note">
+            <span class="meta">BROWSER</span>
+            <div><h3>Reopen a closed tab</h3><p>Press <strong>Ctrl + Shift + T</strong> on Windows or <strong>Cmd + Shift + T</strong> on Mac. Repeat it to restore more tabs.</p></div>
+            <button class="copy-btn" data-copy="Ctrl + Shift + T / Cmd + Shift + T" aria-label="Copy reopen tab shortcut">Copy</button>
+          </article>
+          <article class="note">
+            <span class="meta">ANDROID</span>
+            <div><h3>Pin an app for a hand-off</h3><p>Enable App Pinning in Security settings, then pin one app before handing over your phone. Other apps stay out of reach.</p></div>
+            <button class="copy-btn" data-copy="Settings → Security → App Pinning" aria-label="Copy app pinning settings path">Copy</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="hacks">
+        <div class="section-head">
+          <div><span class="section-label">02 / HACKS</span><h2>Simple fixes</h2></div>
+          <span class="count">4 notes</span>
+        </div>
+        <div class="note-list">
+          <article class="note"><span class="meta">WI-FI</span><div><h3>Wi-Fi feels slow?</h3><p>Test beside the router first. If speed improves there, move the router higher and into the open before buying an extender.</p></div></article>
+          <article class="note"><span class="meta">STORAGE</span><div><h3>Phone storage full?</h3><p>Sort downloads and videos by size, remove offline media you can re-download, then empty the app’s own trash. Skip “cleaner” apps promising miracle speedups.</p></div></article>
+          <article class="note"><span class="meta">LAPTOP</span><div><h3>Laptop running hot?</h3><p>Check Task Manager or Activity Monitor for unusual CPU use. Restart that app, clear blocked vents and keep the laptop off soft bedding.</p></div></article>
+          <article class="note"><span class="meta">BATTERY</span><div><h3>Battery draining overnight?</h3><p>Review usage by app, disable unnecessary background activity and test one night with airplane mode to separate weak-signal drain from app drain.</p></div></article>
+        </div>
+      </section>
+
+      <section id="daily">
+        <div class="section-head">
+          <div><span class="section-label">03 / DAILY TECH TRICK</span><h2>Today’s note</h2></div>
+        </div>
+        <article class="daily-note">
+          <span class="meta">SEP 27 · TRAVEL DATA</span>
+          <h3>iTechieSIM gives your phone travel data through an eSIM.</h3>
+          <p>Based in Multan, Pakistan, iTechieSIM sells prepaid data eSIMs for 195+ countries. Pick a plan at <strong>itechiesim.com</strong>, pay, then scan the QR code it sends by email and WhatsApp. On iPhone, open <strong>Settings → Mobile Data → Add eSIM</strong>, scan the code and turn on Data Roaming. Your normal SIM can stay on for WhatsApp and bank OTPs.</p>
+          <p class="note-warning"><strong>Honest note:</strong> It does not turn a non-PTA phone into a local Pakistani SIM. It only adds travel data. The site shows Rs 2,215 for 7 days.</p>
+          <div class="daily-actions">
+            <button class="plain-button" id="copyDaily">Copy note</button>
+            <span class="status" id="copyStatus" aria-live="polite"></span>
+          </div>
+        </article>
+      </section>
+
+      <section id="reels">
+        <div class="section-head">
+          <div><span class="section-label">04 / REEL NOTES</span><h2>Reel Notes: @techwithmani2.0</h2></div>
+          <span class="count">25 reels checked</span>
+        </div>
+        <div class="note-list">
+          <article class="note">
+            <span class="meta">SEP 25</span>
+            <div class="note-copy"><h3>🏴‍☠️ Free Netflix, HBO Max &amp; more</h3><p><strong>Not real in a legal way.</strong> No legal site streams Netflix, HBO and Disney+ free. The reel shows pirate sites. They may play, but they are illegal, full of pop-up ads and malware risk, and often get shut down. Legal free options include Pluto TV and Tubi.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DdtLR6nK59u/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 23</span>
+            <div class="note-copy"><h3>✅ Free courses for students</h3><p>roadmap.sh is real and free.</p><ol class="steps"><li>Open roadmap.sh.</li><li>Click <strong>Roadmaps</strong> and pick one, such as Frontend or Backend.</li><li>Click any box to open free lessons for that topic.</li><li>Click a box again to mark it Done.</li><li>Sign in free to save your progress.</li></ol></div>
+            <div class="note-actions"><a class="site-link" href="https://roadmap.sh/" target="_blank" rel="noopener noreferrer">Open roadmap.sh ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DdoJTqRKvMj/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 22</span>
+            <div class="note-copy"><h3>✅ Make your website look professional</h3><p>Both tools are real.</p><ol class="steps"><li>Open getdesign.md and choose a brand, such as BMW.</li><li>Click <strong>Copy</strong> on the design file and paste it into your AI coding tool.</li><li>Tell the AI: “build a page in this style.”</li><li>For Sitepeel, install it from the Chrome Web Store. Open a website, then click the extension to see or copy its HTML and CSS.</li></ol><p class="note-warning"><strong>Note:</strong> Copy code only to learn. Get permission before reusing someone’s work.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://getdesign.md/" target="_blank" rel="noopener noreferrer">Get Design ↗</a><a class="site-link" href="https://sitepeel.dev/" target="_blank" rel="noopener noreferrer">Sitepeel ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DdllkxEqXvx/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 21</span>
+            <div class="note-copy"><h3>✅ Build your own JARVIS</h3><p>This is a real open-source project.</p><ol class="steps"><li>Install Python on your PC from python.org.</li><li>Open the Mark-LIV GitHub page, click the green <strong>Code</strong> button, choose <strong>Download ZIP</strong>, then unzip it.</li><li>Go to Google AI Studio and create a free API key.</li><li>Follow the setup in the unzipped folder and add your key where it asks.</li><li>Run the main file and say “Hey Jarvis.”</li></ol><p class="note-warning"><strong>Note:</strong> It uses Google’s free tier, which has limits.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://github.com/FatihMakes/Mark-LIV" target="_blank" rel="noopener noreferrer">Open project ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DdizwrFIkc5/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 19</span>
+            <div class="note-copy"><h3>✅ Free music apps for iPhone</h3><p>Audiomack, Apollo Music and Youtify are real free apps.</p><ol class="steps"><li>Open the App Store, search <strong>Audiomack</strong>, and install it.</li><li>Search <strong>Apollo Music</strong> and install it.</li><li>Search <strong>Youtify</strong> and install it.</li><li>Open an app, search for a song, then play it or save it offline.</li></ol><p class="note-warning"><strong>Note:</strong> They are not full Spotify replacements, and song choice can be limited.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/Ddd-6rTKaBn/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 17</span>
+            <div class="note-copy"><h3>⚠️ Free Claude and GPT chat</h3><p><strong>The reel gave the wrong website.</strong> arena-ai.com is a hardware company. The real free multi-model chat is arena.ai.</p><ol class="steps"><li>Open arena.ai.</li><li>Pick two AI models to compare, or choose Direct Mode for one model.</li><li>Type your question and read the answers.</li></ol><p class="note-warning"><strong>Note:</strong> It has daily limits. It is not unlimited.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://arena.ai" target="_blank" rel="noopener noreferrer">Open arena.ai ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DdYmT-oqqe5/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 16</span>
+            <div class="note-copy"><h3>❌ Free Spotify trick for Android</h3><p><strong>Half fake.</strong> There is no music app called Bitcord; Bitcord is a messenger app. Echo Music is real, but it streams YouTube Music without ads, which breaks YouTube’s rules. Use it at your own risk.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DdWHSq6KyOq/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 15</span>
+            <div class="note-copy"><h3>⚠️ Auto-editing screen recorder</h3><p><strong>The reel gave the wrong website.</strong> recordly.com is dead. The real free tool is recordly.dev.</p><ol class="steps"><li>Open recordly.dev and download it for Mac, Windows or Linux.</li><li>Install and open it.</li><li>Press record and make your tutorial.</li><li>It adds zoom effects and smooth cursor movement automatically.</li><li>Export your result as MP4 or GIF.</li></ol></div>
+            <div class="note-actions"><a class="site-link" href="https://recordly.dev" target="_blank" rel="noopener noreferrer">Open Recordly ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DdThf47Ko1w/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 14</span>
+            <div class="note-copy"><h3>✅ Free voice cloning &amp; text-to-speech</h3><p>kikivoice.ai is real and free.</p><ol class="steps"><li>Open kikivoice.ai.</li><li>Choose <strong>Voice Cloning</strong>.</li><li>Record or upload 10–15 seconds of clear voice.</li><li>Type or paste the words you want spoken.</li><li>Click Generate, wait, then download the MP3.</li></ol><p class="note-warning"><strong>Tip:</strong> Use a clean, noise-free sample. The free plan has weekly limits and needs no sign-up.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://kikivoice.ai" target="_blank" rel="noopener noreferrer">Open KikiVoice ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DdQ8wMNK4xj/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 13</span>
+            <div class="note-copy"><h3>❌ YouTube views trick</h3><p><strong>This is a myth, not a hack.</strong> YouTube says channel country and keyword settings do not boost recommendations. These settings are fine for housekeeping, but views come from good titles, watch time and useful content.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DdOTuJrqFJ3/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 12</span>
+            <div class="note-copy"><h3>✅ KwaiCut: free CapCut alternative</h3><p>KwaiCut is a real app.</p><ol class="steps"><li>Open the Play Store and search <strong>KwaiCut - Video Editor</strong>.</li><li>Check that the developer is <strong>Kwai Technology Limited</strong>, then install it.</li><li>Open it and tap New Project to choose a video.</li><li>Tap a clip to cut it or add filters, effects and music.</li><li>Try the free templates in the Material Center.</li><li>Tap Export, choose the quality, then save and share.</li></ol><p class="note-warning"><strong>Note:</strong> 4K export may need the paid Pro upgrade.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DdLlQMgKcuQ/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 10</span>
+            <div class="note-copy"><h3>❌ Free AI voices</h3><p><strong>The claim is false.</strong> trustedeleven.com is a paid shop using JazzCash, Easypaisa or bank transfer. There is no free tier. For free voices, try kikivoice.ai above instead.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DdGq1GrqRoK/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 9</span>
+            <div class="note-copy"><h3>✅ Free ChatGPT alternative for coding</h3><p>DeepSeek is real and free.</p><ol class="steps"><li>Open chat.deepseek.com.</li><li>Sign up free with email or Google.</li><li>Type a question or coding problem and press send.</li><li>To fix code, paste it and ask: “find the bug in this code.”</li><li>Turn on DeepThink for step-by-step maths or logic answers.</li></ol></div>
+            <div class="note-actions"><a class="site-link" href="https://chat.deepseek.com" target="_blank" rel="noopener noreferrer">Open DeepSeek ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DdD_u2RKC9N/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 8</span>
+            <div class="note-copy"><h3>🏴‍☠️ Free anime</h3><p><strong>This is piracy.</strong> The reel shows shared Crunchyroll logins and unlicensed anime streams. Shared logins can get accounts banned. Pirate sites are illegal and often have aggressive pop-up ads.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DdBfEkQqBlF/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 7</span>
+            <div class="note-copy"><h3>✅ Copy any AI image prompt</h3><p>This trick is real and works.</p><ol class="steps"><li>Take a screenshot of the AI image you like.</li><li>Open ChatGPT and start a new chat.</li><li>Attach the image.</li><li>Type: “Give me the exact prompt in JSON format to recreate this image. Describe composition, style, lighting, colours, and mood.”</li><li>Copy the JSON ChatGPT writes.</li><li>Paste it into an image generator and swap the subject for your own photo.</li></ol><p class="note-warning"><strong>Note:</strong> It gives a close match, not a pixel-perfect copy.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/Dc-7hp7qxga/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 6</span>
+            <div class="note-copy"><h3>✅ GPT-6 Astra free</h3><p>It is real, but read the warning. The reel misspelled the website; the correct site is platform.experientiallabs.ai.</p><ol class="steps"><li>Open the site and sign up.</li><li>Go to Models and find GPT-6 Astra.</li><li>Add a card and pay the one-time $1 verification charge to unlock the free tier.</li><li>Create an API key in your dashboard.</li><li>Set your monthly budget to $0 so you cannot be billed.</li><li>Use the key with the model name <strong>gpt-6-astra</strong>.</li></ol><p class="note-warning"><strong>Warning:</strong> You give your card to a small third-party company. The free tier is a limited promotion, not forever.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://platform.experientiallabs.ai" target="_blank" rel="noopener noreferrer">Open platform ↗</a><a class="reel-link" href="https://www.instagram.com/reel/Dc8bB2RKQ0u/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 5</span>
+            <div class="note-copy"><h3>⚠️ Free Claude &amp; Fable models</h3><p><strong>Could not verify.</strong> freemodels.pro would not open. “Free unlimited frontier AI models with no signup” is not believable when those models cost money elsewhere. Do not enter your login or card details there.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/Dc5vR8gKWt4/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 4</span>
+            <div class="note-copy"><h3>✅ Track where your money goes</h3><p>Klera is a real free app.</p><ol class="steps"><li>Open kleraapp.com/get on your phone.</li><li>Tap the Play Store or App Store button and install Klera.</li><li>Open it. No sign-up is needed.</li><li>Tap + and type an amount, or say “200 chai, 300 fuel,” to log spending.</li><li>Set a monthly budget for overspend alerts.</li><li>Ask “Can I buy a phone for 30000?” and its on-device AI answers from your data.</li></ol><p class="note-warning"><strong>Note:</strong> It works fully offline and needs no account.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://kleraapp.com/get" target="_blank" rel="noopener noreferrer">Get Klera ↗</a><a class="reel-link" href="https://www.instagram.com/reel/Dc3DjihKLT_/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 2</span>
+            <div class="note-copy"><h3>✅ Free AI product videos</h3><p>This workflow is real.</p><ol class="steps"><li>Photograph your product on a plain background.</li><li>In ChatGPT, describe it and ask: “write a detailed AI video prompt for a product ad.”</li><li>Open Google Flow and sign in with a free Google account.</li><li>Start a new project and upload your product photos.</li><li>Paste the ChatGPT prompt and generate the clip.</li><li>Download the video and post it.</li></ol><p class="note-warning"><strong>Note:</strong> The free tier gives about 2–3 clips a day, not unlimited use.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://labs.google/flow" target="_blank" rel="noopener noreferrer">Open Google Flow ↗</a><a class="reel-link" href="https://www.instagram.com/reel/Dcx9nycKXKN/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">SEP 1</span>
+            <div class="note-copy"><h3>✅ Free website &amp; app design with Google Stitch</h3><p>Google Stitch is real.</p><ol class="steps"><li>Open stitch.withgoogle.com and sign in with Google.</li><li>Choose Mobile or Web.</li><li>Type your idea in simple words, such as “a food delivery app with dark mode.”</li><li>Click Generate to make full screens with colors and buttons.</li><li>Chat with it to refine the design, such as “make the button rounder.”</li><li>Export the code or send it to Figma or Google AI Studio.</li></ol><p class="note-warning"><strong>Note:</strong> It is free with daily limits.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://stitch.withgoogle.com" target="_blank" rel="noopener noreferrer">Open Stitch ↗</a><a class="reel-link" href="https://www.instagram.com/reel/Dcvhfevqwp-/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">AUG 31</span>
+            <div class="note-copy"><h3>✅ SIM on a non-PTA iPhone</h3><p>The HelloRoam eSIM trick is real.</p><ol class="steps"><li>Open helloroam.com on your phone.</li><li>Type your destination, such as Pakistan, and choose a data plan.</li><li>Pay by card or Apple Pay.</li><li>Wait for the QR code by email.</li><li>On iPhone, open Settings → Cellular → Add eSIM, then scan the code.</li><li>Turn on Data Roaming for the eSIM and set it as your Mobile Data line.</li></ol><p class="note-warning"><strong>Note:</strong> This gives mobile data without PTA registration, but not local calls or SMS like a PTA SIM.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://helloroam.com" target="_blank" rel="noopener noreferrer">Open HelloRoam ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DcsxQz4KLZW/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">AUG 30</span>
+            <div class="note-copy"><h3>🏴‍☠️ Netflix &amp; Prime Video free</h3><p><strong>This is piracy.</strong> Netmirror.gg is an unlicensed streaming site made to look like Netflix. It streams shows free, but it is illegal, full of ads, and sites like it keep changing domains or going down.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DcqfJ7SK2NS/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">AUG 29</span>
+            <div class="note-copy"><h3>✅ Free business ad campaigns</h3><p>Google Pomelli is real.</p><ol class="steps"><li>Open labs.google/pomelli.</li><li>Sign in free with your Google account.</li><li>Paste your business website link and press Enter.</li><li>Pomelli reads your site and builds your brand style.</li><li>Pick a suggested campaign idea or type your own.</li><li>Edit the ready-made ad images and captions, then download and post them.</li></ol></div>
+            <div class="note-actions"><a class="site-link" href="https://labs.google/pomelli" target="_blank" rel="noopener noreferrer">Open Pomelli ↗</a><a class="reel-link" href="https://www.instagram.com/reel/DcntZrsKWa0/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">AUG 28</span>
+            <div class="note-copy"><h3>⚠️ Free Spotify with Lumo Music</h3><p><strong>Be careful.</strong> The app is real on the Play Store and App Store, but “millions of songs free with offline downloads” almost certainly means unlicensed music. Apps like this often get removed, so do not rely on it.</p></div>
+            <div class="note-actions"><a class="reel-link" href="https://www.instagram.com/reel/DclJaLBqCjR/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+          <article class="note">
+            <span class="meta">AUG 26</span>
+            <div class="note-copy"><h3>✅ Free Claude for coding</h3><p>AgentRouter is real.</p><ol class="steps"><li>Open agentrouter.org and sign in with GitHub. No card is needed.</li><li>Check the free credit balance in your dashboard.</li><li>Create an API token.</li><li>In Claude Desktop, go to Help → Troubleshooting and turn on Developer Mode.</li><li>Open Developer → Configure third-party inference. Paste https://agentrouter.org/ as the gateway URL and add your API key, then apply and relaunch.</li></ol><p class="note-warning"><strong>Warning:</strong> AgentRouter is a third party, not Anthropic. It can see your requests, and the free credits are a limited promotion.</p></div>
+            <div class="note-actions"><a class="site-link" href="https://agentrouter.org" target="_blank" rel="noopener noreferrer">Open AgentRouter ↗</a><a class="reel-link" href="https://www.instagram.com/reel/Dcf6l93qVu4/" target="_blank" rel="noopener noreferrer">Watch reel ↗</a></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="deals">
+        <div class="section-head">
+          <div><span class="section-label">05 / DEALS</span><h2>Deal check</h2></div>
+        </div>
+        <div class="deal-layout">
+          <div class="deal-copy">
+            <p>Big discount labels can hide an inflated “original” price. Compare the current offer with the normal street price before deciding.</p>
+            <ul class="deal-rules">
+              <li><strong>Check history.</strong> Compare against the usual price.</li>
+              <li><strong>Match the model.</strong> Storage, RAM, generation and warranty matter.</li>
+              <li><strong>Count the extras.</strong> Include delivery and required accessories.</li>
+            </ul>
+          </div>
+          <div class="calculator">
+            <h3>Discount calculator</h3>
+            <p class="field-help">Use a normal price you have already verified.</p>
+            <div class="fields">
+              <label>Normal price (₹)<input id="normalPrice" type="number" min="0" inputmode="decimal" placeholder="25,000" /></label>
+              <label>Offer price (₹)<input id="offerPrice" type="number" min="0" inputmode="decimal" placeholder="21,999" /></label>
+            </div>
+            <button class="calculate" id="calculate">Calculate saving</button>
+            <div class="result" id="dealResult" aria-live="polite"><strong>—</strong><span>Add both prices to see the discount.</span></div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <span>Tech notes by Om.</span>
+        <span>Verify settings and prices before acting.</span>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    (function () {
+      function copyText(text, button, status) {
+        if (!navigator.clipboard) return;
+        navigator.clipboard.writeText(text).then(function () {
+          var original = button.textContent;
+          button.textContent = 'Copied';
+          if (status) status.textContent = 'Copied';
+          window.setTimeout(function () {
+            button.textContent = original;
+            if (status) status.textContent = '';
+          }, 1400);
+        });
+      }
+
+      document.querySelectorAll('[data-copy]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          copyText(button.getAttribute('data-copy'), button);
+        });
+      });
+
+      var dailyButton = document.getElementById('copyDaily');
+      dailyButton.addEventListener('click', function () {
+        copyText('iTechieSIM travel eSIM: open itechiesim.com, choose a country and data plan, pay, then scan the QR code in Settings → Mobile Data → Add eSIM and turn on Data Roaming. Your normal SIM can stay on for WhatsApp and bank OTPs. This adds travel data; it does not give a non-PTA phone a local Pakistani SIM.', dailyButton, document.getElementById('copyStatus'));
+      });
+
+      document.getElementById('calculate').addEventListener('click', function () {
+        var normal = Number(document.getElementById('normalPrice').value);
+        var offer = Number(document.getElementById('offerPrice').value);
+        var box = document.getElementById('dealResult');
+        if (!(normal > 0) || !(offer >= 0)) {
+          box.innerHTML = '<strong>—</strong><span>Enter two valid prices.</span>';
+          return;
+        }
+        var difference = normal - offer;
+        var percent = (difference / normal) * 100;
+        if (difference <= 0) {
+          box.innerHTML = '<strong>0%</strong><span>This offer is not below the normal price.</span>';
+          return;
+        }
+        var money = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(difference);
+        box.innerHTML = '<strong>' + percent.toFixed(1) + '%</strong><span>You save ' + money + ' against the price entered.</span>';
+      });
+    })();
+  </script>
+</body>
+</html>
