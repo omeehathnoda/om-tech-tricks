@@ -1,13 +1,13 @@
 {
   "daily": {
-    "copyText": "iTechieSIM travel eSIM: open itechiesim.com, choose a country and data plan, pay, then scan the QR code in Settings → Mobile Data → Add eSIM and turn on Data Roaming. Your normal SIM can stay on for WhatsApp and bank OTPs. This adds travel data; it does not give a non-PTA phone a local Pakistani SIM.",
-    "description": "Based in Multan, Pakistan, iTechieSIM sells prepaid data eSIMs for 195+ countries. Pick a plan at **itechiesim.com**, pay, then scan the QR code it sends by email and WhatsApp. On iPhone, open **Settings → Mobile Data → Add eSIM**, scan the code and turn on Data Roaming. Your normal SIM can stay on for WhatsApp and bank OTPs.",
-    "meta": "SEP 27 · TRAVEL DATA",
+    "meta": "SEP 29 · BROWSER GAMING",
+    "title": "Play GTA right in your browser — no download needed.",
+    "description": "GTA Vice City and GTA 3 run inside a modern browser for free. Open **quenq.com**, go to the Apps section, pick the game, hit Play Game and start playing — touch controls work on your phone too.",
     "note": {
       "label": "Honest note",
-      "text": "It does not turn a non-PTA phone into a local Pakistani SIM. It only adds travel data. The site shows Rs 2,215 for 7 days."
+      "text": "Fan-made browser port, not an official Rockstar release. Verified working today."
     },
-    "title": "iTechieSIM gives your phone travel data through an eSIM."
+    "copyText": "Play GTA in browser: open quenq.com, go to the Apps section, pick GTA 3 or GTA Vice City, hit Play Game. Free, no download, works on phone and PC with touch controls."
   },
   "hacks": [
     {
@@ -34,6 +34,30 @@
   "reelCount": "25 reels checked",
   "reelSource": "@techwithmani2.0",
   "reels": [
+    {
+      "date": "SEP 29",
+      "title": "🎮 Play GTA in your browser — no download",
+      "description": "**Real and free.** GTA Vice City (2002) and GTA 3 now run right inside a modern browser — no download, no install, works on phone and PC.",
+      "steps": [
+        "Open **quenq.com** and go to the Apps section",
+        "Pick GTA 3 or GTA Vice City and hit **Play Game**",
+        "Wait for it to load, then click to start — touch controls appear on mobile"
+      ],
+      "note": {
+        "label": "Honest note",
+        "text": "Fan-made port, not an official Rockstar release. On DOS Zone only a demo is free — the full game needs files from your own Vice City copy."
+      },
+      "links": [
+        {
+          "label": "Play it: quenq.com ↗",
+          "href": "https://quenq.com"
+        },
+        {
+          "label": "Watch reel ↗",
+          "href": "https://www.instagram.com/reel/Dd3kkLJBdEu/"
+        }
+      ]
+    },
     {
       "date": "SEP 25",
       "description": "**Not real in a legal way.** No legal site streams Netflix, HBO and Disney+ free. The reel shows pirate sites. They may play, but they are illegal, full of pop-up ads and malware risk, and often get shut down. Legal free options include Pluto TV and Tubi.",
