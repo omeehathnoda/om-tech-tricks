@@ -1,13 +1,13 @@
 {
   "daily": {
-    "meta": "SEP 29 · BROWSER GAMING",
-    "title": "Play GTA right in your browser — no download needed.",
-    "description": "GTA Vice City and GTA 3 run inside a modern browser for free. Open **quenq.com**, go to the Apps section, pick the game, hit Play Game and start playing — touch controls work on your phone too.",
+    "meta": "OCT 6 · INSTAGRAM GROWTH",
+    "title": "Get more Instagram views with Trial Reels.",
+    "description": "Turn ON **Sharing and reuse** in Instagram Settings, then post your reel as a **Trial reel** — it goes to non-followers first. If it performs well, switch the audience to **Everyone** and watch the reach climb.",
     "note": {
       "label": "Honest note",
-      "text": "Fan-made browser port, not an official Rockstar release. Verified working today."
+      "text": "Uses real Instagram features — a growth tactic, not a guaranteed hack."
     },
-    "copyText": "Play GTA in browser: open quenq.com, go to the Apps section, pick GTA 3 or GTA Vice City, hit Play Game. Free, no download, works on phone and PC with touch controls."
+    "copyText": "Instagram views trick: Settings → Sharing and reuse → turn ON share options. Post as a Trial reel (non-followers first). If it does well, switch audience to Everyone."
   },
   "hacks": [
     {
@@ -570,6 +570,32 @@
     }
   ],
   "tricks": [
+    {
+      "tag": "INSTAGRAM GROWTH",
+      "title": "📈 Get more Instagram views with Trial Reels",
+      "description": "A creator trick that uses **real Instagram settings** — no app, no fake website. The idea: let Instagram test your reel on non-followers first, then open it to everyone once it performs.",
+      "steps": [
+        "Open Instagram **Settings → Sharing and reuse**.",
+        "Turn ON **Posts and reels to stories**, **Reposts on posts and reels**, and **Allow people to share externally** — more shares = more reach.",
+        "Create your reel. When posting, choose **Trial reel** instead of Everyone — Instagram shows it only to non-followers first.",
+        "Watch its performance. If it's doing well, switch the reel's audience to **Everyone** to push it wider."
+      ],
+      "note": {
+        "label": "Honest note",
+        "text": "Trial Reels is a real Instagram feature — this is a growth tactic, not a hack or bot. Better reach is likely, never guaranteed: content quality still decides."
+      },
+      "links": [
+        {
+          "label": "Watch reel 1 ↗",
+          "href": "https://www.instagram.com/reel/DeJm1sSKEuu/"
+        },
+        {
+          "label": "Watch reel 2 ↗",
+          "href": "https://www.instagram.com/reel/DeJmXidqHOm/"
+        }
+      ],
+      "copy": "Instagram views trick: Settings → Sharing and reuse → turn ON share options. Post the reel as a Trial reel (non-followers first). If it performs well, switch audience to Everyone."
+    },
     {
       "description": "Based in Multan, Pakistan, iTechieSIM sells prepaid travel data eSIMs for 195+ countries. The site shows a 7-day plan for Rs 2,215.",
       "links": [
