@@ -1,13 +1,13 @@
 {
   "daily": {
-    "meta": "OCT 10 · AI TOOLS",
-    "title": "Create unlimited AI images — free.",
-    "description": "Open **toolfk.com** → **AI Image Generator**, pick the **AGNES AI** model, type a prompt, and generate **unlimited AI pictures** — no sign-up, no payment.",
+    "meta": "OCT 13 · AI TOOLS",
+    "title": "Make AI videos free with Google Vids.",
+    "description": "Open **Google Vids**, sign in with your Google account, add a scene, type a prompt, and generate an **AI video clip** — insert it into the timeline and export.",
     "note": {
       "label": "Honest note",
-      "text": "Short ads play between generations. Works best for cartoon-style images."
+      "text": "Free tier is capped at roughly 5–10 videos per Google account — not unlimited as the reel title claims."
     },
-    "copyText": "toolfk.com"
+    "copyText": "workspace.google.com/products/vids"
   },
   "hacks": [
     {
@@ -31,9 +31,34 @@
       "title": "Battery draining overnight?"
     }
   ],
-  "reelCount": "27 reels checked",
+  "reelCount": "28 reels checked",
   "reelSource": "@techwithmani2.0",
   "reels": [
+    {
+      "date": "OCT 13",
+      "title": "🎬 FREE AI Video Generator — Google Vids",
+      "description": "Techwithmani2.0 shows **Google Vids**: sign in with your Google account, add a scene, type a prompt, and generate an AI video clip — then insert it into the timeline and export.",
+      "steps": [
+        "Search **Google Vids** and open the Google Workspace Vids page.",
+        "Sign in with your Google account and open the editor.",
+        "Add a new scene, type your prompt, and hit **Generate**.",
+        "The AI clip appears in the preview — insert it into the timeline and export your video."
+      ],
+      "note": {
+        "label": "Honest note",
+        "text": "The reel title says FREE, but viewers report the free tier is capped — around 5–10 videos per Google account, then paid credits are needed. Not unlimited."
+      },
+      "links": [
+        {
+          "label": "Watch reel ↗",
+          "href": "https://www.instagram.com/reel/DeY-sY-q3_k/"
+        },
+        {
+          "label": "Google Vids ↗",
+          "href": "https://workspace.google.com/products/vids/"
+        }
+      ]
+    },
     {
       "date": "OCT 10",
       "title": "🎨 Create unlimited AI images — free",
@@ -594,6 +619,32 @@
     }
   ],
   "tricks": [
+    {
+      "tag": "AI TOOLS",
+      "title": "🎬 Make AI videos free with Google Vids",
+      "description": "A **genuinely free (limited) trick** — Google Vids generates AI video clips from a text prompt with just a Google account sign-in, exactly as shown in the reel.",
+      "steps": [
+        "Open the **Google Vids** page and click **Sign in to Vids**.",
+        "Inside the editor, add a **new scene** and type a prompt describing your video.",
+        "Hit **Generate** — the AI clip appears in the preview panel.",
+        "Insert the clip into the timeline next to your other scenes and export."
+      ],
+      "note": {
+        "label": "Honest note",
+        "text": "Free, but capped — viewers report roughly 5–10 free videos per Google account before paid credits kick in. Plan your prompts."
+      },
+      "links": [
+        {
+          "label": "Google Vids ↗",
+          "href": "https://workspace.google.com/products/vids/"
+        },
+        {
+          "label": "Watch reel ↗",
+          "href": "https://www.instagram.com/reel/DeY-sY-q3_k/"
+        }
+      ],
+      "copy": "workspace.google.com/products/vids"
+    },
     {
       "tag": "AI TOOLS",
       "title": "🎨 Create unlimited AI images — free",
