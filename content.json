@@ -1,13 +1,13 @@
 {
   "daily": {
-    "meta": "OCT 13 · AI TOOLS",
-    "title": "Make AI videos free with Google Vids.",
-    "description": "Open **Google Vids**, sign in with your Google account, add a scene, type a prompt, and generate an **AI video clip** — insert it into the timeline and export.",
+    "meta": "OCT 14 · GAMING",
+    "title": "Play GTA 5 in your browser.",
+    "description": "Open **gta.deloskiyt.pl** and the game loads on the page — **no download, no install**. Turn on desktop mode on phones; keyboard via OTG helps.",
     "note": {
       "label": "Honest note",
-      "text": "Free tier is capped at roughly 5–10 videos per Google account — not unlimited as the reel title claims."
+      "text": "Viewer feedback is mixed — expect lag on phones; best on a fast connection."
     },
-    "copyText": "workspace.google.com/products/vids"
+    "copyText": "gta.deloskiyt.pl"
   },
   "hacks": [
     {
@@ -31,9 +31,33 @@
       "title": "Battery draining overnight?"
     }
   ],
-  "reelCount": "28 reels checked",
+  "reelCount": "29 reels checked",
   "reelSource": "@techwithmani2.0",
   "reels": [
+    {
+      "date": "OCT 14",
+      "title": "🎮 GTA 5 on Browser — No Download Needed",
+      "description": "Techwithmani2.0 shows **GTA 5 running inside the browser** — open gta.deloskiyt.pl and play without downloading or installing anything.",
+      "steps": [
+        "Open **gta.deloskiyt.pl** in your browser.",
+        "Enable **desktop site** mode if you're on a phone.",
+        "Wait for the game to load and play right in the page."
+      ],
+      "note": {
+        "label": "Honest note",
+        "text": "Comments are mixed — viewers report **lag on phones** and occasional load failures; best on a fast connection. The creator re-uploaded the same reel twice; both point to the same site."
+      },
+      "links": [
+        {
+          "label": "Watch reel ↗",
+          "href": "https://www.instagram.com/reel/Debl8JcqEvG/"
+        },
+        {
+          "label": "Play GTA 5 in browser ↗",
+          "href": "https://gta.deloskiyt.pl/"
+        }
+      ]
+    },
     {
       "date": "OCT 13",
       "title": "🎬 FREE AI Video Generator — Google Vids",
@@ -619,6 +643,31 @@
     }
   ],
   "tricks": [
+    {
+      "tag": "GAMING",
+      "title": "🎮 Play GTA 5 right in your browser",
+      "description": "A **browser-based GTA 5** — just open **gta.deloskiyt.pl** and the game loads on the page. No download, no install.",
+      "steps": [
+        "Open **gta.deloskiyt.pl** in your browser (turn on **desktop site** on mobile).",
+        "Let the game load in the page — it needs a **fast internet connection**.",
+        "For smoother controls, connect a **keyboard via OTG** (a viewer tip from the reel comments)."
+      ],
+      "note": {
+        "label": "Honest note",
+        "text": "Mixed viewer reports — some say it **lags on phones** and a few say it won't load at all. Best experienced on a desktop-class browser with good bandwidth; treat it as a fun experiment."
+      },
+      "links": [
+        {
+          "label": "Play GTA 5 in browser ↗",
+          "href": "https://gta.deloskiyt.pl/"
+        },
+        {
+          "label": "Watch reel ↗",
+          "href": "https://www.instagram.com/reel/Debl8JcqEvG/"
+        }
+      ],
+      "copy": "gta.deloskiyt.pl"
+    },
     {
       "tag": "AI TOOLS",
       "title": "🎬 Make AI videos free with Google Vids",
